@@ -1,0 +1,28 @@
+# Empleadores dominicanos cuyo portal de empleo usa un sistema que career-ops
+# ya sabe leer. install.mjs inserta estas entradas dentro de `tracked_companies:`.
+#
+# Cada una fue hallada y verificada en vivo con descubrir.mjs (ver
+# data/empresas-rd.yml para la fecha y el número de vacantes observado).
+# `provider:` va explícito porque estos portales usan dominio propio o una
+# forma de URL que career-ops no detecta solo.
+
+- name: Banco Popular Dominicano
+  careers_url: https://empleos.grupopopular.com/
+  provider: successfactors
+  enabled: true
+
+- name: Grupo Universal
+  careers_url: https://fa-evze-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/es/sites/CX_1/
+  provider: oraclecloud
+  enabled: true
+
+- name: Cervecería Nacional Dominicana
+  careers_url: https://cerveceria-nacional-dominicana.na.teamtailor.com/
+  provider: teamtailor
+  enabled: true
+
+- name: Grupo InterEnergy (CEPM)
+  careers_url: https://grupointerenergy.na.teamtailor.com/
+  provider: teamtailor
+  enabled: true
+  notes: "Portal del grupo InterEnergy, matriz de CEPM; puede incluir vacantes fuera de RD."

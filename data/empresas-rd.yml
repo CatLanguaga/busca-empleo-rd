@@ -1,0 +1,407 @@
+# Registro de empleadores dominicanos y dónde publican sus vacantes.
+#
+# Dos fuentes de información por empleador, que no se mezclan:
+#
+#   estado / donde / url / vacantes   lo que observó el detector (descubrir.mjs) por HTTP.
+#                                     No se escribe a mano: sale de correr el detector.
+#   mapeo                             lo que se observó revisando el sitio. `via: navegador`
+#                                     es la revisión de mapeo de docs/MAPEO.md; `via: http`
+#                                     significa que bastó el detector.
+#   empleo                            portal de empleo del empleador, cuando se conoce.
+#                                     Si está, el detector empieza por ahí.
+#
+# Todo es una foto de la fecha indicada; los sitios cambian. Significado de cada
+# estado en docs/EMPRESAS.md.
+#
+# Para añadir un empleador: nombre, sector y web. Luego corre el detector y, si
+# no lo resuelve, la revisión de mapeo.
+
+verificado: '2026-10-12'
+empresas:
+  - nombre: Banco Popular Dominicano
+    sector: banca
+    web: https://popularenlinea.com
+    empleo: https://empleos.grupopopular.com
+    estado: resuelta
+    donde: successfactors
+    url: https://empleos.grupopopular.com/
+    vacantes: 41
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: SAP SuccessFactors (sitio de marca)
+      nota: enlace "Empleos" en la portada, que por HTTP está bloqueada
+  - nombre: Banreservas
+    sector: banca
+    web: https://www.banreservas.com
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Banco BHD
+    sector: banca
+    web: https://bhd.com.do
+    empleo: https://empleosbhd.com.do/
+    estado: portal-externo
+    url: https://empleosbhd.com.do/
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: propio (aplicación web)
+      nota: el enlace acortado de la portada lleva a su "Portal de empleos"; carga las vacantes con JavaScript y no tiene lector
+  - nombre: APAP
+    sector: banca
+    web: https://www.apap.com.do
+    empleo: https://career19.sapsf.com/career?company=APAP
+    estado: plataforma
+    donde: SAP SuccessFactors clásico (su robots.txt prohíbe leerlo)
+    url: https://career19.sapsf.com/career?company=APAP
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: SAP SuccessFactors clásico
+      nota: su página "Trabaja con nosotros" remite ahí; el robots.txt de ese portal prohíbe leerlo
+  - nombre: Scotiabank República Dominicana
+    sector: banca
+    web: https://www.scotiabank.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: la portada no enlaza empleo; "Acerca de" lleva a https://do.scotiabank.com/acerca-de-scotiabank/trabaja-con-nosotros.html, que no enlaza a un listado de vacantes
+  - nombre: Banesco República Dominicana
+    sector: banca
+    web: https://www.banesco.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Banco Santa Cruz
+    sector: banca
+    web: https://www.bsc.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada ni en "Sobre nosotros"
+  - nombre: Banco Caribe
+    sector: banca
+    web: https://www.bancocaribe.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada ni en "Nosotros"
+  - nombre: Asociación Cibao
+    sector: banca
+    web: https://www.acap.com.do
+    estado: bloqueada
+    nota: 'portada: HTTP 403 con protección anti-bot'
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: en navegador el sitio carga (redirige a cibao.com.do); sin enlace de empleo en la portada
+  - nombre: Humano Seguros
+    sector: seguros
+    web: https://www.humano.com.do
+    estado: tablero-vacio
+    donde: evaluar
+    url: https://humano.evaluar.com/
+    vacantes: 0
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Grupo Universal
+    sector: seguros
+    web: https://www.universal.com.do
+    estado: resuelta
+    donde: oraclecloud
+    url: https://fa-evze-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/es/sites/CX_1/
+    vacantes: 37
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: MAPFRE BHD
+    sector: seguros
+    web: https://www.mapfrebhd.com.do
+    empleo: https://jobs.mapfre.com/
+    estado: resuelta
+    donde: successfactors
+    url: https://jobs.mapfre.com/
+    vacantes: 99
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: SAP SuccessFactors (sitio de marca)
+      nota: 'portal global del grupo MAPFRE: de 99 vacantes leídas, la mayoría en España y Ecuador y ninguna identificada en RD; no se incluye en busca-empleo-rd'
+  - nombre: Seguros Reservas
+    sector: seguros
+    web: https://www.segurosreservas.com
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Claro Dominicana
+    sector: telecomunicaciones
+    web: https://www.claro.com.do
+    empleo: https://vacantes.claro.com.do/
+    estado: robots
+    donde: successfactors
+    url: https://vacantes.claro.com.do/
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: SAP SuccessFactors (sitio de marca, buscador nuevo)
+      nota: el listado solo sale por /services/recruiting/v1/jobs, y el robots.txt del portal prohíbe /services/; no se incluye
+  - nombre: Altice Dominicana
+    sector: telecomunicaciones
+    web: https://www.altice.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: EGE Haina
+    sector: energia
+    web: https://www.egehaina.com
+    estado: plataforma
+    donde: SAP SuccessFactors clásico (su robots.txt prohíbe leerlo)
+    url: https://career4.successfactors.com/career?company=EHaina
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: CEPM
+    sector: energia
+    web: https://www.cepm.com.do
+    estado: resuelta
+    donde: teamtailor
+    url: https://grupointerenergy.na.teamtailor.com/
+    vacantes: 29
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Edesur
+    sector: energia
+    web: https://www.edesur.com.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada ni en "Quiénes somos"
+  - nombre: Edenorte
+    sector: energia
+    web: https://www.edenorte.com.do
+    estado: pagina-propia
+    url: https://edenorte.com.do/vacantes/
+    nota: sin enlace en portada; existe /vacantes
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Grupo SID
+    sector: consumo
+    web: https://gruposid.com.do
+    estado: resuelta
+    donde: evaluar
+    url: https://gruposid.evaluar.com/
+    vacantes: 68
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Cervecería Nacional Dominicana
+    sector: consumo
+    web: https://www.cnd.com.do
+    estado: resuelta
+    donde: teamtailor
+    url: https://cerveceria-nacional-dominicana.na.teamtailor.com/
+    vacantes: 11
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Grupo Ramos
+    sector: retail
+    web: https://www.gruporamos.com
+    estado: plataforma
+    donde: SAP SuccessFactors clásico (su robots.txt prohíbe leerlo)
+    url: https://career19.sapsf.com/career
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Grupo Rica
+    sector: consumo
+    web: https://www.gruporica.com
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Farmacia Carol
+    sector: retail
+    web: https://www.farmaciacarol.com
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Grupo Puntacana
+    sector: turismo
+    web: https://www.grupopuntacana.com.do
+    empleo: https://carreras.grupopuntacana.com.do/
+    estado: portal-externo
+    url: https://carreras.grupopuntacana.com.do/
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: propio
+      nota: es un formulario de "solicitud de candidato"; no lista vacantes
+  - nombre: Caribbean Cinemas
+    sector: servicios
+    web: https://caribbeancinemas.com
+    estado: pagina-propia
+    url: https://caribbeancinemas.com/plazas-disponibles/
+    nota: sin enlace en portada; existe /empleos
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Superintendencia de Bancos
+    sector: publico
+    web: https://sb.gob.do
+    estado: pagina-propia
+    url: https://sb.gob.do/sobre-nosotros/unete-a-nuestro-equipo/
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: propio
+      nota: la página es un "Formulario de empleo" con correos de reclutamiento; no se vio un listado de vacantes
+  - nombre: Banco Central
+    sector: publico
+    web: https://www.bancentral.gov.do
+    estado: pagina-propia
+    url: https://www.bancentral.gov.do/a/d/2694-vacantes
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Superintendencia del Mercado de Valores
+    sector: publico
+    web: https://www.simv.gob.do
+    estado: bloqueada
+    nota: 'portada: HTTP 403 con protección anti-bot'
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: Concursa
+      nota: en navegador el sitio carga; su menú de Recursos Humanos tiene "Portal Concursa – Vacantes", ya cubierto por busca-empleo-rd
+  - nombre: Superintendencia de Pensiones
+    sector: publico
+    web: https://www.sipen.gob.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Superintendencia de Seguros
+    sector: publico
+    web: https://sis.gob.do
+    estado: pagina-propia
+    url: https://sis.gob.do/transparencia/recursos-humanos/
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: DGII
+    sector: publico
+    web: https://dgii.gov.do
+    estado: pagina-propia
+    url: https://dgii.gov.do/transparencia/recursosHumanos/Paginas/default.aspx
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Dirección General de Aduanas
+    sector: publico
+    web: https://www.aduanas.gob.do
+    estado: cubierta
+    donde: 'Concursa (board: concursa)'
+    url: https://map.gob.do/Concursa/
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Tesorería de la Seguridad Social
+    sector: publico
+    web: https://tss.gob.do
+    estado: pagina-propia
+    url: https://tss.gob.do/transparencia/recursos-humanos/vacantes/
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: INDOTEL
+    sector: publico
+    web: https://indotel.gob.do
+    estado: sin-enlace
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: sin enlace de empleo en la portada
+  - nombre: Junta Central Electoral
+    sector: publico
+    web: https://jce.gob.do
+    estado: pagina-propia
+    url: https://jce.gob.do/portaltransparencia/Gestion-Humana/Vacantes
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Ministerio de Hacienda
+    sector: publico
+    web: https://www.hacienda.gob.do
+    estado: pagina-propia
+    url: https://www.hacienda.gob.do/solicitud-de-empleo/
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Contraloría General de la República
+    sector: publico
+    web: https://www.contraloria.gob.do
+    estado: cubierta
+    donde: 'Concursa (board: concursa)'
+    url: https://map.gob.do/Concursa/
+    nota: enlace hallado en la sección de transparencia
+    mapeo:
+      fecha: '2026-10-12'
+      via: http
+  - nombre: Cámara de Cuentas
+    sector: publico
+    web: https://www.camaradecuentas.gob.do
+    estado: portal-externo
+    url: https://convocatorias.camaradecuentas.gob.do/
+    mapeo:
+      fecha: '2026-10-12'
+      via: navegador
+      sistema: desconocido
+      nota: el subdominio convocatorias.camaradecuentas.gob.do no resolvió en el navegador
+  - nombre: Ministerio de Trabajo
+    sector: publico
+    web: https://mt.gob.do
+    estado: cubierta
+    donde: 'RD Trabaja (board: rdtrabaja)'
+    url: https://rdtrabaja.mt.gob.do/#/empleo/buscar-empleo
+    mapeo:
+      fecha: '2026-10-12'
+      via: http

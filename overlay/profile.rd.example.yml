@@ -1,0 +1,30 @@
+# Ejemplo de ajustes para República Dominicana en config/profile.yml de career-ops.
+# NO se instala solo: install.mjs nunca toca tu profile.yml. Copia lo que te sirva
+# o pídele al agente: "ajusta mi perfil para República Dominicana usando
+# overlay/profile.rd.example.yml de busca-empleo-rd".
+#
+# La plantilla completa, con todos los campos, es config/profile.example.yml de
+# career-ops. Aquí solo van los campos que cambian para RD.
+# Todos los datos de abajo son ficticios.
+
+candidate:
+  full_name: "María Ejemplo Pérez"
+  email: "maria@example.com"
+  location: "Santo Domingo, República Dominicana"
+
+compensation:
+  target_range: "RD$ 90,000 - 120,000 brutos al mes"
+  currency: "DOP"
+  minimum: "RD$ 80,000 brutos al mes"
+  location_flexibility: "Híbrido en Santo Domingo o remoto desde RD"
+
+location:
+  country: "República Dominicana"
+  city: "Santo Domingo"
+  timezone: "America/Santo_Domingo"
+  authorized_in: ["República Dominicana"]
+  needs_sponsorship: false
+
+language:
+  output: es            # informes, CV y cartas en español
+  modes_dir: modes/es   # vocabulario de mercado hispano de career-ops

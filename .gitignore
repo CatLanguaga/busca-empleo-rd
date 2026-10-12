@@ -1,0 +1,9 @@
+node_modules/
+*.bak
+.DS_Store
+Thumbs.db
+
+# Nunca datos personales en este repo
+cv.md
+profile.yml
+*.pdf

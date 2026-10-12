@@ -1,0 +1,52 @@
+# Bolsas de empleo de República Dominicana (plugin rd-boards).
+# install.mjs inserta estas entradas dentro de `job_boards:` en tu portals.yml.
+# Requiere: node plugins.mjs enable rd-boards --confirm
+
+- name: Computrabajo RD
+  provider: rd-boards
+  board: computrabajo
+  # OBLIGATORIO: cambia estas palabras por TUS roles objetivo (máx. 8).
+  # Computrabajo solo se puede leer por búsqueda; no tiene listado general.
+  queries: ["CAMBIA-ESTO-por-tu-rol"]
+  max_pages: 1          # 20 ofertas por página, máx. 5
+  enabled: false        # pon true después de escribir tus queries
+
+- name: Tecoloco RD
+  provider: rd-boards
+  board: tecoloco
+  # categories: ["contabilidad", "call-center"]   # opcional; sin esto lee todo el listado
+  max_pages: 2          # 100 ofertas por página, máx. 5
+  enabled: true
+
+- name: DiarioEmpleo
+  provider: rd-boards
+  board: diarioempleo
+  enabled: true
+
+- name: RD Trabaja (Ministerio de Trabajo)
+  provider: rd-boards
+  board: rdtrabaja
+  max_pages: 2          # 50 puestos por página, máx. 10
+  enabled: true
+  notes: "No publica el empleador ni tiene página por puesto; se aplica dentro del portal."
+
+- name: Concursa (MAP)
+  provider: rd-boards
+  board: concursa
+  # instituciones: ["Superintendencia de Bancos", "Ministerio de Hacienda"]   # opcional; sin esto, todas
+  max_pages: 2          # 20 concursos por página, máx. 5; solo los abiertos
+  enabled: true
+  notes: "Concursos públicos del Estado. Se aplica dentro de Concursa."
+
+# Empleadores cuyo portal de empleo está en Evaluar ({empresa}.evaluar.com).
+- name: Grupo SID
+  provider: rd-boards
+  board: evaluar
+  tenant: gruposid
+  enabled: true
+
+- name: Humano Seguros
+  provider: rd-boards
+  board: evaluar
+  tenant: humano
+  enabled: true
