@@ -38,6 +38,12 @@
   enabled: true
   notes: "Concursos públicos del Estado. Se aplica dentro de Concursa."
 
+- name: Unika
+  provider: rd-boards
+  board: unika
+  enabled: true
+  notes: "Intermediaria: no publica el empleador. Cada fila suele ser un grupo de vacantes de un área; se aplica dentro de Unika."
+
 # Empleadores cuyo portal de empleo está en Evaluar ({empresa}.evaluar.com).
 - name: Grupo SID
   provider: rd-boards

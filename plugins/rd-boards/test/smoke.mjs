@@ -189,6 +189,53 @@ assert.strictEqual(cc.buildUrl(3), 'https://map.gob.do/Concursa?discapacidad=Fal
   assert.strictEqual(calls.length, 2);
 }
 
+// ── Unika ────────────────────────────────────────────────────────────────
+const un = await load('_unika.mjs');
+const unRow = (id, name, area, extra = {}) => ({
+  name,
+  description: 'Varias empresas del país.',
+  categories: [
+    { id: 1, category: 'LOC', value: 'Distrito Nacional' },
+    { id: 2, category: 'LOC', value: 'Santo Domingo' },
+    { id: 3, category: 'PRO', value: area },
+    { id: 4, category: 'ORG', value: 'Unika' },
+  ],
+  landing_url: `/job/puesto-ejemplo-${id}/`,
+  expiration_time: '2026-10-20T00:00:00Z',
+  created: '2026-10-12T19:14:05.199706Z',
+  domain: 'unika.aplygo.com',
+  ...extra,
+});
+const unJobs = un.parse([
+  { name: 'Plantilla vacía', jobs: [] },
+  { name: 'Vacantes', jobs: [
+    unRow(7001, 'Vacantes Tecnológicas', 'Tecnología'),
+    unRow(7002, 'Vacantes de Mercadeo', 'Mercadeo'),
+    unRow(7003, 'Vencida', 'Finanzas', { expiration_time: '2026-01-01T00:00:00Z' }),
+    unRow(7004, 'Enlace ajeno', 'Finanzas', { domain: 'otro-sitio.example' }),
+    unRow(7005, 'Sin vencimiento', 'Comercial', { expiration_time: null }),
+    { name: '' },
+  ] },
+], NOW);
+assert.strictEqual(unJobs.length, 3, 'expired, off-host and malformed rows are dropped');
+assert.deepStrictEqual(unJobs[0], {
+  title: 'Vacantes Tecnológicas (Tecnología)',
+  url: 'https://unika.aplygo.com/job/puesto-ejemplo-7001/',
+  company: un.COMPANY_LABEL,
+  location: 'Distrito Nacional, Santo Domingo',
+  externalId: '7001',
+  description: 'Varias empresas del país.',
+  postedAt: Date.parse('2026-10-12T19:14:05.199706Z'),
+});
+assert.strictEqual(unJobs[1].title, 'Vacantes de Mercadeo', 'the area is not repeated when the name already carries it');
+assert.strictEqual(unJobs[2].title, 'Sin vencimiento (Comercial)');
+assert.deepStrictEqual(un.parse({}), []);
+{
+  const calls = [];
+  await un.fetchBoard({}, { getJson: async u => { calls.push(u); return []; } });
+  assert.deepStrictEqual(calls, [un.FEED_URL], 'one request: the feed the site itself reads');
+}
+
 // ── provider hook against a fake ctx ─────────────────────────────────────
 function fakeCtx(respond) {
   const calls = [];

@@ -6,7 +6,7 @@ busca-empleo-rd es un complemento para [career-ops](https://github.com/career-op
 
 busca-empleo-rd le añade lo dominicano:
 
-- **Bolsas de empleo de RD** dentro del escáner: Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja (Ministerio de Trabajo) y Concursa (concursos del Estado).
+- **Bolsas de empleo de RD** dentro del escáner: Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja (Ministerio de Trabajo), Concursa (concursos del Estado) y Unika.
 - **Bolsas propias de empleadores dominicanos**, como la del Banco Popular, y un detector para encontrar más.
 - **Contexto laboral dominicano** al evaluar: salario de Navidad, bonificación, cesantía, TSS, ISR, pesos o dólares, empleado o contratista.
 - **Revisión extra** de CV y carta antes de entregártelos, y reglas para que el asistente no invente ni pierda datos tuyos.
@@ -75,6 +75,7 @@ Y con el asistente, en lenguaje normal: "procesa mi pipeline", "evalúa esta ofe
 | DiarioEmpleo | Bolsa pequeña. |
 | RD Trabaja | Portal del Ministerio de Trabajo. **No publica qué empresa contrata** y se aplica dentro del portal. |
 | Concursa | Concursos públicos del Estado (Ministerio de Administración Pública). Pocos a la vez. |
+| Unika | Intermediaria laboral. **No publica qué empresa contrata**; cada fila suele agrupar las vacantes de un área. |
 | Evaluar | Plataforma donde tienen su bolsa Grupo SID y Humano Seguros. |
 
 Y empleadores con bolsa de empleo propia: **Banco Popular Dominicano, Grupo Universal, Cervecería Nacional Dominicana, Grupo InterEnergy (CEPM)**.

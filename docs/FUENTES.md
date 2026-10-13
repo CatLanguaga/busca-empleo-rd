@@ -16,6 +16,7 @@ Revisión: **12 de octubre de 2026**. Los sitios cambian; si una bolsa deja de f
 | RD Trabaja | empleateya.mt.gob.do | API JSON pública `/api/puestos` (la misma que usa su web) | No publica `robots.txt` (404). | **No publica el empleador** ni tiene página por puesto. Ver abajo. |
 
 | Concursa | map.gob.do/Concursa/ | HTML del listado y `?pagina=N` | `map.gob.do` prohíbe solo `/wp-admin/`. | Concursos públicos del Estado. Solo los abiertos; no se descargan los PDF de bases. Volumen bajo. |
+| Unika | unika.com.do (vacantes en `unika.aplygo.com`) | Fuente JSON pública que carga su portada: `thekeytalent.aplygo.com/api/v1/groups/…/jobs_by_profession/`. Una petición. | Ninguno de los tres sitios publica `robots.txt` (403 del almacenamiento en `unika.com.do`, página 404 en los de `aplygo.com`), leído el 13 de octubre de 2026. | **No publica el empleador.** Cada entrada suele ser un grupo de vacantes de un área (10 entradas a la fecha de revisión); los puestos están dentro de la página. Ver abajo. |
 | Evaluar | `{empresa}.evaluar.com` | API pública de WordPress `/wp-json/wp/v2/job-listings` | `Disallow:` vacío (nada prohibido), leído en `humano.evaluar.com`. | Un sitio por empleador; hoy Grupo SID y Humano. El dato de contacto del reclutador que trae la API no se guarda. |
 
 ### Empleadores con bolsa propia
@@ -37,6 +38,15 @@ Es el portal de empleo del Ministerio de Trabajo. El Ministerio intermedia entre
 - Las ofertas no dicen qué empresa contrata. busca-empleo-rd las marca como `RD Trabaja (empleador no publicado)` y nunca intenta adivinarla.
 - No existe un enlace directo a cada puesto. El enlace que guarda busca-empleo-rd abre el portal; hay que buscar el puesto por título y aplicar allí con una cuenta (gratuita).
 - Unos 485 puestos a la fecha de revisión.
+
+### Unika: lo que hay que saber
+
+Es una plataforma de intermediación laboral. Publica vacantes de varias empresas sin nombrarlas, así que:
+
+- Las ofertas no dicen qué empresa contrata. busca-empleo-rd las marca como `Unika (empleador no publicado)` y nunca intenta adivinarla.
+- Cada entrada suele ser un **grupo**: "Vacantes Tecnológicas" es una página que lista dentro los puestos de esa área. La fuente solo trae el nombre del grupo y su área, no los puestos. busca-empleo-rd añade el área al título (`Vacantes Tecnológicas (Tecnología)`) para que el filtro por título la encuentre; los puestos hay que leerlos abriendo la página.
+- También aparecen ferias de empleo y programas de formación, no solo vacantes.
+- Se aplica dentro de Unika, con el formulario de cada puesto.
 
 ## Evaluadas y no soportadas
 

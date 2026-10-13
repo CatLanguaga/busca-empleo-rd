@@ -21,8 +21,9 @@ import * as diarioempleo from './_diarioempleo.mjs';
 import * as rdtrabaja from './_rdtrabaja.mjs';
 import * as evaluar from './_evaluar.mjs';
 import * as concursa from './_concursa.mjs';
+import * as unika from './_unika.mjs';
 
-export const BOARDS = { computrabajo, tecoloco, diarioempleo, rdtrabaja, evaluar, concursa };
+export const BOARDS = { computrabajo, tecoloco, diarioempleo, rdtrabaja, evaluar, concursa, unika };
 
 const PACE_MS = 750;
 const REQUEST_TIMEOUT_MS = 15_000;

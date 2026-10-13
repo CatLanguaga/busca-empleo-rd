@@ -1,9 +1,9 @@
 {
   "id": "rd-boards",
   "name": "rd-boards",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "apiVersion": 1,
-  "description": "Read Dominican Republic job sources (Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja, Concursa, and employers hosted on Evaluar) into the scanner, respecting each site's robots.txt.",
+  "description": "Read Dominican Republic job sources (Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja, Concursa, Unika, and employers hosted on Evaluar) into the scanner, respecting each site's robots.txt.",
   "hooks": ["provider"],
   "requiredEnv": [],
   "allowedHosts": [
@@ -13,7 +13,8 @@
     "empleateya.mt.gob.do",
     "map.gob.do",
     "gruposid.evaluar.com",
-    "humano.evaluar.com"
+    "humano.evaluar.com",
+    "thekeytalent.aplygo.com"
   ],
   "skill": "skill.md",
   "humanInTheLoop": true
