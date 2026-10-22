@@ -23,6 +23,16 @@ Esto es orientación para evaluar ofertas, no asesoría legal ni fiscal.
 - Ofertas de bolsas (Computrabajo, Tecoloco, DiarioEmpleo): confirma la vacante en la página del empleador cuando tenga una.
 - Para saber dónde publica vacantes un empleador dominicano, usa el detector de busca-empleo-rd (`descubrir.mjs`, ver su `docs/EMPRESAS.md`) antes de buscar en la web.
 
+### LinkedIn
+
+Mucho empleo dominicano profesional se publica en LinkedIn. Cuenta con él aunque el escáner no lo lea:
+
+- Si un empleador que me interesa no tiene vacantes en su web, recuérdame que mire su página de LinkedIn y te pegue lo que encuentre.
+- Para una oferta de LinkedIn, sigue la guardia de `AGENTS.md` (#4121): un intento en navegador; si no carga la descripción, pídeme el texto. Confírmala en la web del empleador.
+- Si te pido recibir ofertas de LinkedIn sin buscarlas a mano, guíame para montar alertas de empleo por correo y el plugin `gmail` (`docs/LINKEDIN.md` de busca-empleo-rd).
+- Antes de una postulación que valga la pena, ofréceme ver si conozco a alguien ahí (`node linkedin-join.mjs --summary`) y el modo `contacto`.
+- No recorras LinkedIn en bucle ni escribas lectores para su sitio.
+
 ### Empleadores que el escáner no lee
 
 Para empleadores marcados en el registro de busca-empleo-rd como página propia, portal externo, sin enlace o bloqueada:
@@ -40,7 +50,19 @@ Para empleadores marcados en el registro de busca-empleo-rd como página propia,
 - Distingue, cuando la convocatoria lo diga, entre cargo de carrera administrativa por concurso y contratación temporal o de otro tipo. Si no lo dice, dilo así; no lo deduzcas.
 - La postulación a un concurso se hace dentro de Concursa o por el canal que indique la institución, con documentos formales. No sirve una carta de presentación genérica: ayúdame a reunir lo que piden las bases.
 - Instituciones con página propia de vacantes (Superintendencia de Bancos, Banco Central, TSS, JCE y otras) no tienen lector: si me interesa una, revisa conmigo su página.
-- Desconfía y avísame si una oferta pide dinero, datos bancarios o cédula antes de una entrevista, o si solo da un contacto por WhatsApp sin empresa identificable.
+
+### Ofertas sospechosas
+
+Las bolsas abiertas (sobre todo Computrabajo) publican ofertas falsas, casi siempre "remoto, sin experiencia". Antes de evaluar o preparar CV para una oferta, revisa estas señales:
+
+- **Nombre de empresa grande con ubicación que no cuadra.** Una empresa dominicana conocida (cine, supermercado, editora, refinería) publicando "asistente virtual" o "captura de datos" con ubicación "Reino Unido", "Perú" u otro país.
+- **Texto plantilla repetido.** La misma descripción, palabra por palabra, bajo varias empresas distintas.
+- **Demasiado fácil.** Remoto, sin experiencia, requisito "educación básica primaria", medio tiempo, contrato por obra, sueldo genérico y tareas vagas ("gestionar información", "organizar archivos digitales").
+- **Contenido para adultos disfrazado.** "Creadora de contenido 18+", "modelo", "chatter" o "vender suscripciones de una conocida plataforma".
+- **Pide algo antes de entrevistar.** Dinero (cursos, kits, "inscripción"), datos bancarios, foto de la cédula, o solo da un contacto por WhatsApp o Telegram sin empresa identificable.
+- **Empresa inverificable.** No aparece en su web oficial, ni en su LinkedIn, ni con un portal de empleo propio.
+
+Si una oferta tiene dos o más señales: márcala como **posible estafa** al principio del informe, lista las señales citando el texto de la oferta, ponle la puntuación mínima y no prepares CV ni carta salvo que yo insista después de leer el aviso. Si la oferta usa el nombre de una empresa real, busca la vacante en el portal de empleo de esa empresa (registro de busca-empleo-rd o `descubrir.mjs`); si no está allí, dilo. Nunca afirmes que es estafa como hecho: son señales, y yo decido.
 
 ### Revisor siempre activo (CV)
 

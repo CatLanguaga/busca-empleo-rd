@@ -59,7 +59,7 @@ Es una plataforma de intermediación laboral. Publica vacantes de varias empresa
 | Indeed (do.indeed.com) | No responde a peticiones directas; requiere evasión anti-bot, que este proyecto no hace. |
 | EmpleosRD (empleosrd.com), Buscojobs (buscojobs.do) | Sin respuesta desde la red de prueba a la fecha de revisión. |
 | Opcionempleo (opcionempleo.com.do) | Agregador (Careerjet) con desafío anti-bot. |
-| LinkedIn | Sus términos prohíben el acceso automatizado. Fuera de este repo. |
+| LinkedIn | Sus términos prohíben el acceso automatizado, así que no hay lector. Sí se usa por otras vías (pegar ofertas, alertas por correo, contactos): ver [LINKEDIN.md](LINKEDIN.md). |
 
 ## Qué no hace este proyecto
 

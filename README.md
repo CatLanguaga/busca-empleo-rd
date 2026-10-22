@@ -82,6 +82,17 @@ Y empleadores con bolsa de empleo propia: **Banco Popular Dominicano, Grupo Univ
 
 Cada fuente se lee respetando su `robots.txt`, con pausas entre peticiones y sin evadir bloqueos. Aldaba, Emplea.do, Indeed, Jooble, LinkedIn y el portal clásico de SuccessFactors se evaluaron y **no** se incluyen; el motivo de cada una está en [docs/FUENTES.md](docs/FUENTES.md).
 
+## LinkedIn
+
+Mucho empleo profesional dominicano se mueve por LinkedIn, y busca-empleo-rd lo aprovecha sin rastrear su sitio:
+
+- **Pega el enlace o el texto** de una oferta de LinkedIn y el asistente la evalúa y la confirma en la web del empleador.
+- **Alertas de empleo de LinkedIn** para "República Dominicana" → tu correo → tu lista de ofertas, con el plugin `gmail` de career-ops.
+- **Tus contactos**: cruza tu exportación de conexiones con las empresas que sigues para saber a quién conoces en cada una.
+- **Mensajes**: el asistente redacta la nota para el reclutador; tú la envías.
+
+Cómo montar cada una, y por qué no hay un lector automático de LinkedIn: [docs/LINKEDIN.md](docs/LINKEDIN.md).
+
 ## Empresas e instituciones dominicanas
 
 `descubrir.mjs` busca dónde publica sus vacantes un empleador, partiendo de su página web:
@@ -97,6 +108,7 @@ Solo muestra; con `--write` guarda las que resuelven. El registro [`data/empresa
 
 - [docs/FUENTES.md](docs/FUENTES.md) — qué se lee, qué se revisó, qué quedó fuera y por qué.
 - [docs/MERCADO-RD.md](docs/MERCADO-RD.md) — qué considera el asistente del mercado laboral dominicano.
+- [docs/LINKEDIN.md](docs/LINKEDIN.md) — cómo usar LinkedIn: pegar ofertas, alertas por correo, contactos.
 - [docs/COWORK.md](docs/COWORK.md) — uso desde Claude Cowork.
 - [docs/MAPEO.md](docs/MAPEO.md) — revisión con navegador para hallar portales que el detector no ve.
 - [docs/EMPRESAS.md](docs/EMPRESAS.md) — añadir empresas.
