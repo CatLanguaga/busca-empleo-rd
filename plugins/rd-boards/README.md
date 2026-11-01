@@ -1,6 +1,6 @@
 # rd-boards
 
-Plugin de [career-ops](https://github.com/career-ops-hq/career-ops) que lee bolsas de empleo de República Dominicana: Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja, Concursa, Unika y los empleadores alojados en Evaluar.
+Plugin de [career-ops](https://github.com/career-ops-hq/career-ops) que lee bolsas de empleo de República Dominicana: Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja, Concursa, Unika, Trabajos Diarios RD, TuEmpleoRD y los empleadores alojados en Evaluar.
 
 Parte de [busca-empleo-rd](../../README.md). Uso y configuración en [`skill.md`](skill.md).
 

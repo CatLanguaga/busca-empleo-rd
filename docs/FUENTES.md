@@ -17,6 +17,8 @@ Revisión: **12 de octubre de 2026**. Los sitios cambian; si una bolsa deja de f
 
 | Concursa | map.gob.do/Concursa/ | HTML del listado y `?pagina=N` | `map.gob.do` prohíbe solo `/wp-admin/`. | Concursos públicos del Estado. Solo los abiertos; no se descargan los PDF de bases. Volumen bajo. |
 | Unika | unika.com.do (vacantes en `unika.aplygo.com`) | Fuente JSON pública que carga su portada: `thekeytalent.aplygo.com/api/v1/groups/…/jobs_by_profession/`. Una petición. | Ninguno de los tres sitios publica `robots.txt` (403 del almacenamiento en `unika.com.do`, página 404 en los de `aplygo.com`), leído el 13 de octubre de 2026. | **No publica el empleador.** Cada entrada suele ser un grupo de vacantes de un área (10 entradas a la fecha de revisión); los puestos están dentro de la página. Ver abajo. |
+| Trabajos Diarios RD | do.trabajosdiarios.com | HTML de `/ofertas-trabajo` y `/ofertas-trabajo/de-{palabra}`, `?page=N` | Prohíbe solo `/auth/google/` y `/auth/facebook/`. Pide `Crawl-delay: 2`: este lector espera 2 s entre peticiones. Leído el 1 de noviembre de 2026. | Unas 3.000 ofertas, 12 por página: se leen solo las más recientes (`max_pages`). Una búsqueda sin resultados muestra ofertas "sugeridas" sin relación; el lector las descarta. |
+| TuEmpleoRD | tuempleord.do | API pública de WordPress `/wp-json/wp/v2/job-listings` (WP Job Manager), con `search=` si hay `queries` | `Allow: /`, nada prohibido. Leído el 1 de noviembre de 2026. | 100 por página, las más recientes primero. **La mayoría no indica el empleador** (38 de las 100 más recientes lo indicaban). Ver abajo. |
 | Evaluar | `{empresa}.evaluar.com` | API pública de WordPress `/wp-json/wp/v2/job-listings` | `Disallow:` vacío (nada prohibido), leído en `humano.evaluar.com`. | Un sitio por empleador; hoy Grupo SID y Humano. El dato de contacto del reclutador que trae la API no se guarda. |
 
 ### Empleadores con bolsa propia
@@ -38,6 +40,14 @@ Es el portal de empleo del Ministerio de Trabajo. El Ministerio intermedia entre
 - Las ofertas no dicen qué empresa contrata. busca-empleo-rd las marca como `RD Trabaja (empleador no publicado)` y nunca intenta adivinarla.
 - No existe un enlace directo a cada puesto. El enlace que guarda busca-empleo-rd abre el portal; hay que buscar el puesto por título y aplicar allí con una cuenta (gratuita).
 - Unos 485 puestos a la fecha de revisión.
+
+### TuEmpleoRD: lo que hay que saber
+
+Las ofertas las publica el equipo del sitio o las envían las empresas desde su formulario gratuito. Por eso:
+
+- La ficha casi nunca tiene el campo de empresa. busca-empleo-rd marca esas filas como `TuEmpleoRD (empleador no indicado)`; si el nombre está en el título o el texto, hay que leerlo ahí.
+- Muchas ofertas piden enviar el CV a un correo, y algunas son listas de varias vacantes en una sola página.
+- Conviene confirmar la vacante con el empleador antes de enviar datos personales (ver las revisiones de oferta sospechosa).
 
 ### Unika: lo que hay que saber
 
@@ -65,7 +75,7 @@ Es una plataforma de intermediación laboral. Publica vacantes de varias empresa
 
 - No evade bloqueos anti-bot, CAPTCHAs ni muros de inicio de sesión.
 - No usa cuentas ni credenciales de nadie.
-- No reintenta ante un 429 ni escanea en bucle: 750 ms entre peticiones y tope de 20 peticiones por entrada.
+- No reintenta ante un 429 ni escanea en bucle: 750 ms entre peticiones (o lo que pida el `Crawl-delay` del sitio) y tope de 20 peticiones por entrada.
 - No envía postulaciones. Tú revisas y tú envías.
 
 ## Proponer una bolsa nueva

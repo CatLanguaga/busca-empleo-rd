@@ -44,6 +44,21 @@
   enabled: true
   notes: "Intermediaria: no publica el empleador. Cada fila suele ser un grupo de vacantes de un área; se aplica dentro de Unika."
 
+- name: Trabajos Diarios RD
+  provider: rd-boards
+  board: trabajosdiarios
+  # queries: ["contabilidad", "servicio al cliente"]   # opcional; sin esto lee lo más reciente del listado completo
+  max_pages: 2          # 12 ofertas por página, máx. 10 (y 20 peticiones por entrada); 2 s entre peticiones
+  enabled: true
+
+- name: TuEmpleoRD
+  provider: rd-boards
+  board: tuempleord
+  # queries: ["contador", "ventas"]   # opcional; sin esto lee las 100 más recientes
+  max_pages: 1          # 100 ofertas por página, máx. 5
+  enabled: true
+  notes: "La mayoría de ofertas no indica la empresa; muchas piden el CV por correo."
+
 # Empleadores cuyo portal de empleo está en Evaluar ({empresa}.evaluar.com).
 - name: Grupo SID
   provider: rd-boards
