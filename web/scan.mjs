@@ -55,6 +55,8 @@ export function defaultSources() {
     'RD Trabaja': [{ board: 'rdtrabaja', max_pages: 2 }],
     'Concursa': [{ board: 'concursa', max_pages: 2 }],
     'Unika': [{ board: 'unika' }],
+    'Trabajos Diarios RD': [{ board: 'trabajosdiarios', max_pages: 2 }],
+    'TuEmpleoRD': [{ board: 'tuempleord', max_pages: 1 }],
     'Grupo SID': [{ board: 'evaluar', tenant: 'gruposid', name: 'Grupo SID' }],
     'Humano Seguros': [{ board: 'evaluar', tenant: 'humano', name: 'Humano Seguros' }],
     // Employers' own portals: the same list as overlay/empresas.rd.yml.
@@ -70,14 +72,16 @@ export function defaultSources() {
  * blocked board surfaces as an error and never as an empty listing.
  * @param {typeof fetch} fetchImpl
  * @param {{ count: number }} budget  shared across the whole scan
+ * @param {number} [paceMs]  gap before each request; a board whose robots.txt
+ *   sets a Crawl-delay exports a larger PACE_MS (trabajosdiarios: 2000)
  */
-export function makeIo(fetchImpl, budget) {
+export function makeIo(fetchImpl, budget, paceMs = PACE_MS) {
   /** @param {string} url @param {string} accept */
   async function request(url, accept) {
     if (budget.count >= MAX_REQUESTS_PER_SCAN) {
       throw new Error(`request cap reached (${MAX_REQUESTS_PER_SCAN} per scan)`);
     }
-    if (budget.count > 0) await sleep(PACE_MS);
+    if (budget.count > 0) await sleep(paceMs);
     budget.count++;
     const res = await fetchImpl(url, {
       headers: { ...HEADERS, Accept: accept },
@@ -106,7 +110,8 @@ export function makeIo(fetchImpl, budget) {
 export async function runScan(db, opts = {}) {
   const sources = opts.sources ?? defaultSources();
   const boards = opts.boards ?? { ...BOARDS, ...EMPLOYER_READERS };
-  const io = makeIo(opts.fetchImpl ?? fetch, { count: 0 });
+  const fetchImpl = opts.fetchImpl ?? fetch;
+  const budget = { count: 0 };
   const now = opts.now ?? Date.now();
   const log = opts.log ?? (() => {});
   const report = [];
@@ -116,7 +121,9 @@ export async function runScan(db, opts = {}) {
     const errors = [];
     for (const entry of entries) {
       try {
-        const jobs = await boards[entry.board].fetchBoard(entry, io);
+        const board = boards[entry.board];
+        const pace = Math.max(PACE_MS, Number(board.PACE_MS) || 0);
+        const jobs = await board.fetchBoard(entry, makeIo(fetchImpl, budget, pace));
         for (const job of jobs) if (job?.url && job?.title) byUrl.set(job.url, job);
       } catch (err) {
         errors.push(err instanceof Error ? err.message : String(err));
