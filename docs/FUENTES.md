@@ -58,6 +58,19 @@ Es una plataforma de intermediación laboral. Publica vacantes de varias empresa
 - También aparecen ferias de empleo y programas de formación, no solo vacantes.
 - Se aplica dentro de Unika, con el formulario de cada puesto.
 
+### Fuentes indirectas: LinkedIn
+
+LinkedIn no se lee, pero sus ofertas llegan por vías que no tocan su sitio:
+
+| Vía | Qué trae | Cómo |
+|---|---|---|
+| Alertas de empleo por correo | Título, empresa y enlace de cada oferta, enviados por LinkedIn a tu bandeja. | Plugin `gmail` de career-ops sobre una etiqueta de tu Gmail. |
+| Pegar la oferta | El texto completo, copiado por ti. | Lo pegas al asistente. |
+| Web del empleador | La misma vacante en el portal propio de la empresa, que es el enlace bueno para aplicar. | El asistente busca la empresa en `portals.yml` y en el [registro](../data/empresas-rd.yml), no siguiendo el botón de LinkedIn. |
+| Tus conexiones | A quién conoces en cada empresa. | Exportación `Connections.csv` y `linkedin-join.mjs`. |
+
+Detalle en [LINKEDIN.md](LINKEDIN.md).
+
 ## Evaluadas y no soportadas
 
 | Bolsa | Motivo |
@@ -69,7 +82,7 @@ Es una plataforma de intermediación laboral. Publica vacantes de varias empresa
 | Indeed (do.indeed.com) | No responde a peticiones directas; requiere evasión anti-bot, que este proyecto no hace. |
 | EmpleosRD (empleosrd.com), Buscojobs (buscojobs.do) | Sin respuesta desde la red de prueba a la fecha de revisión. |
 | Opcionempleo (opcionempleo.com.do) | Agregador (Careerjet) con desafío anti-bot. |
-| LinkedIn | Sus términos prohíben el acceso automatizado, así que no hay lector. Sí se usa por otras vías (pegar ofertas, alertas por correo, contactos): ver [LINKEDIN.md](LINKEDIN.md). |
+| LinkedIn (lector automático) | Su `robots.txt` termina en `User-agent: * / Disallow: /`, prohíbe además `/jobs-guest/`, `/jobs?runSearch*` y `/jobs/view/externalApply/`, y sus términos prohíben el acceso automatizado (revisado 2026-11-06). No hay lector; se usa como fuente indirecta (ver arriba). |
 
 ## Qué no hace este proyecto
 
