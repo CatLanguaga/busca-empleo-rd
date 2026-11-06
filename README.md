@@ -79,6 +79,7 @@ Y con el asistente, en lenguaje normal: "procesa mi pipeline", "evalúa esta ofe
 | Trabajos Diarios RD | Bolsa grande (miles de ofertas). Listado completo o por palabra clave (`queries`). Va más lenta: su `robots.txt` pide 2 s entre peticiones. |
 | TuEmpleoRD | Listado completo o por palabra clave. La mayoría de ofertas **no indica la empresa** en su ficha; muchas piden el CV por correo. |
 | Evaluar | Plataforma donde tienen su bolsa Grupo SID y Humano Seguros. |
+| LinkedIn (indirecta) | **No se rastrea.** Llega por tus alertas de empleo en Gmail o pegando la oferta, y el asistente la confirma en la web del empleador. Ver [LinkedIn](#linkedin). |
 
 Y empleadores con bolsa de empleo propia: **Banco Popular Dominicano, Grupo Universal, Cervecería Nacional Dominicana, Grupo InterEnergy (CEPM)**.
 
@@ -89,7 +90,7 @@ Cada fuente se lee respetando su `robots.txt`, con pausas entre peticiones y sin
 Mucho empleo profesional dominicano se mueve por LinkedIn, y busca-empleo-rd lo aprovecha sin rastrear su sitio:
 
 - **Pega el enlace o el texto** de una oferta de LinkedIn y el asistente la evalúa y la confirma en la web del empleador.
-- **Alertas de empleo de LinkedIn** para "República Dominicana" → tu correo → tu lista de ofertas, con el plugin `gmail` de career-ops.
+- **Alertas de empleo de LinkedIn** para "República Dominicana" → tu correo → tu lista de ofertas, con el plugin `gmail` de career-ops. Con la empresa que trae el correo, el asistente busca el mismo puesto en su portal propio y te da ese enlace para aplicar.
 - **Tus contactos**: cruza tu exportación de conexiones con las empresas que sigues para saber a quién conoces en cada una.
 - **Mensajes**: el asistente redacta la nota para el reclutador; tú la envías.
 

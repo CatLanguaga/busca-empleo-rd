@@ -30,6 +30,7 @@ Mucho empleo dominicano profesional se publica en LinkedIn. Cuenta con él aunqu
 - Si un empleador que me interesa no tiene vacantes en su web, recuérdame que mire su página de LinkedIn y te pegue lo que encuentre.
 - Para una oferta de LinkedIn, sigue la guardia de `AGENTS.md` (#4121): un intento en navegador; si no carga la descripción, pídeme el texto. Confírmala en la web del empleador.
 - Si te pido recibir ofertas de LinkedIn sin buscarlas a mano, guíame para montar alertas de empleo por correo y el plugin `gmail` (`docs/LINKEDIN.md` de busca-empleo-rd).
+- Para una oferta de LinkedIn que llegó por correo o pegada, busca la empresa en `tracked_companies` de `portals.yml` y en `data/empresas-rd.yml` de busca-empleo-rd. Si tiene portal propio, busca ahí el mismo puesto y usa ese enlace y esa descripción. Si la empresa no está, ofréceme correr `descubrir.mjs` con su web. No sigas el botón de solicitar de LinkedIn ni abras LinkedIn para encontrar el enlace externo.
 - Antes de una postulación que valga la pena, ofréceme ver si conozco a alguien ahí (`node linkedin-join.mjs --summary`) y el modo `contacto`.
 - No recorras LinkedIn en bucle ni escribas lectores para su sitio.
 

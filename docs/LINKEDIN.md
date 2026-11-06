@@ -42,6 +42,17 @@ LinkedIn te envía esos correos porque tú se lo pediste; leerlos en tu propia b
 
 Sin Gmail o sin ganas de configurar OAuth: abre el correo de la alerta y pega los enlaces que te interesen (forma 1).
 
+### Del correo a la web del empleador
+
+El correo de la alerta ya trae **título, empresa y enlace** de cada oferta; el plugin `gmail` guarda esos datos en el pipeline. La descripción completa no viene en el correo, y abrir LinkedIn en automático para sacarla, o seguir su botón "Solicitar" (`/jobs/view/externalApply/`), es justo lo que su `robots.txt` prohíbe.
+
+Lo que sí hace el asistente con el nombre de la empresa:
+
+1. La busca en tus `tracked_companies` de `portals.yml` y en el [registro de empleadores](../data/empresas-rd.yml).
+2. Si tiene portal propio, busca ahí el mismo puesto. Si lo encuentra, ese enlace pasa a ser el bueno: se evalúa con esa descripción y aplicas en la web de la empresa.
+3. Si la empresa no está en ninguno de los dos, te propone correr `descubrir.mjs` con su web para hallar dónde publica.
+4. Si no aparece en la web del empleador, la oferta queda **sin confirmar** y te pide que pegues el texto desde LinkedIn (forma 1).
+
 ## 3. ¿Conozco a alguien ahí?
 
 En un mercado pequeño, una referencia pesa más que una postulación fría. career-ops cruza tus contactos de LinkedIn con las empresas que sigues, sin conectarse a LinkedIn:
