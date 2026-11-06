@@ -72,7 +72,7 @@ Y con el asistente, en lenguaje normal: "procesa mi pipeline", "evalúa esta ofe
 |---|---|
 | Computrabajo RD | Por palabra clave: defines tus roles en `queries`. |
 | Tecoloco RD | Listado completo o por categoría. |
-| DiarioEmpleo | Bolsa pequeña. |
+| DiarioEmpleo | Solo el listado de RD (la bolsa publica también otros países). |
 | RD Trabaja | Portal del Ministerio de Trabajo. **No publica qué empresa contrata** y se aplica dentro del portal. |
 | Concursa | Concursos públicos del Estado (Ministerio de Administración Pública). Pocos a la vez. |
 | Unika | Intermediaria laboral. **No publica qué empresa contrata**; cada fila suele agrupar las vacantes de un área. |

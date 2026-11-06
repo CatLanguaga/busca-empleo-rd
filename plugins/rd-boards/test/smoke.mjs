@@ -87,23 +87,31 @@ assert.strictEqual(tc.buildUrl('Call Center', 2), 'https://www.tecoloco.com.do/e
 
 // ── DiarioEmpleo ─────────────────────────────────────────────────────────
 const de = await load('_diarioempleo.mjs');
-const deCard = (slug, title, company, loc) => `
-<article class="search-job-card" id="empleo-x"> <div class="job-card-top"><div><p class="eyebrow">Híbrido</p>
-<h3>
-<a href="/empleos/${slug}">${title}</a>
-</h3></div></div>
-<div class="job-meta"> <a class="identity company-link" href="/empresas/x">
-<span class="avatar" aria-hidden="true">O</span>
-<span>${company}</span>
-</a> <span>⌖ ${loc}</span> </div>
-<div class="job-card-footer">
-<time class="job-published-time" datetime="2026-10-09T21:28:21+00:00">Hace 2 días</time></div></article>`;
-const deJobs = de.parse(deCard('auxiliar-contable-0000000000000001', 'AUXILIAR CONTABLE', 'OFICINA EJEMPLO', 'Localidad por confirmar') + deCard('chofer-0000000000000002', 'Chofer', 'Logística Ejemplo', 'Santo Domingo'));
+// Markup of 2026-11-06: a company posts through a company-link; a private
+// person posts under a publisher-name, which must not be kept.
+const deCard = ({ path, title, company, person, country = 'do', place, loc }) => `
+<article class="search-job-card" id="empleo-x"> <header class="job-card-top"><div class="identity job-publisher">
+<div class="job-publisher-copy">${company
+  ? `<a class="company-link job-publisher-link" href="${path}"><strong>${company}</strong></a>`
+  : `<div class="publisher-name-row"><span class="publisher-name"><a href="/persona-x"><strong>${person}</strong></a></span></div>`}
+<div class="job-listing-meta"> <span class="job-locality"><svg viewBox="0 0 24 24"><path d="M20 10"/></svg><a href="/empleos/${country}/${place}/">${loc}</a></span>
+<span class="job-listing-date"><time class="job-published-time" datetime="2026-10-26T19:49:15+00:00" title="x">Hace 10 días</time></span></div>
+</div></div></header>
+<h3 data-ui-heading="card"><a href="${path}">${title}</a></h3>
+<div class="page-copy"><p data-page-excerpt>${title}</p></div> </article>`;
+const deJobs = de.parse(
+  deCard({ path: '/empleos-externos/auxiliar-contable-0000-0001', title: 'AUXILIAR CONTABLE', company: 'OFICINA EJEMPLO', place: 'santo-domingo', loc: 'Localidad por confirmar' }) +
+  deCard({ path: '/empleos/se-solicita-chofer-00000002', title: 'Se solicita Chofer', person: 'Persona Ejemplo', place: 'santiago', loc: 'Santiago' }) +
+  deCard({ path: '/empleos-externos/tecnico-electricista-0000-0003', title: 'Técnico electricista', company: 'EMPRESA SV', country: 'sv', place: 'san-salvador', loc: 'San Salvador' }),
+);
+const dePosted = Date.parse('2026-10-26T19:49:15+00:00');
 assert.deepStrictEqual(deJobs, [
-  { title: 'AUXILIAR CONTABLE', url: 'https://diarioempleo.com/empleos/auxiliar-contable-0000000000000001', company: 'OFICINA EJEMPLO', location: '', postedAt: Date.parse('2026-10-09T21:28:21+00:00') },
-  { title: 'Chofer', url: 'https://diarioempleo.com/empleos/chofer-0000000000000002', company: 'Logística Ejemplo', location: 'Santo Domingo', postedAt: Date.parse('2026-10-09T21:28:21+00:00') },
-]);
-assert(!de.LISTING_URL.includes('/buscar'), 'robots.txt disallows /buscar');
+  { title: 'AUXILIAR CONTABLE', url: 'https://diarioempleo.com/empleos-externos/auxiliar-contable-0000-0001', company: 'OFICINA EJEMPLO', location: '', postedAt: dePosted },
+  { title: 'Se solicita Chofer', url: 'https://diarioempleo.com/empleos/se-solicita-chofer-00000002', company: '', location: 'Santiago', postedAt: dePosted },
+], 'a private poster\'s name is not kept, and postings outside the Dominican Republic are dropped');
+assert.strictEqual(de.buildUrl(1), 'https://diarioempleo.com/empleos/do/');
+assert.strictEqual(de.buildUrl(3), 'https://diarioempleo.com/empleos/do/?pagina=3');
+assert(!de.buildUrl(2).includes('/buscar'), 'robots.txt disallows /buscar');
 
 // ── RD Trabaja ───────────────────────────────────────────────────────────
 const rd = await load('_rdtrabaja.mjs');

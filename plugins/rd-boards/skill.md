@@ -22,6 +22,7 @@ Lee bolsas de empleo de República Dominicana dentro del escáner de career-ops.
 - name: DiarioEmpleo
   provider: rd-boards
   board: diarioempleo
+  max_pages: 3          # 12 ofertas por página, máx. 10; solo las de RD
   enabled: true
 
 - name: RD Trabaja (Ministerio de Trabajo)
