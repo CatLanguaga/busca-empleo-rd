@@ -244,6 +244,91 @@ assert.deepStrictEqual(un.parse({}), []);
   assert.deepStrictEqual(calls, [un.FEED_URL], 'one request: the feed the site itself reads');
 }
 
+// ── Trabajos Diarios ─────────────────────────────────────────────────────
+const td = await load('_trabajosdiarios.mjs');
+const tdCard = (id, title, company, loc, date) => `
+<div class="card shadow-sm border-0 mb-3">
+  <div class="card-body mx-auto col-12">
+    <a href="/trabajo/${id}/puesto-ejemplo-en-santiago" data-enlace-oferta="1" class="text-decoration-none text-dark">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="d-flex align-items-center">
+          <img src="https://trabajosdiarios.com/storage/logo.webp" alt="Logo ${company}">
+          <div>
+            <h3 class="fw-bold text-break text-primary mb-0 font_2">${title}</h3>
+            <p class="text-secondary opacity-75 mb-0 small">${company}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center small">
+        <div class="col-12"><svg class="bi bi-geo-alt me-2" viewBox="0 0 16 16"><path d="M0 0"/></svg>
+          <span class="text-dark">${loc}</span></div>
+        <div class="col-12"><svg class="bi bi-calendar me-2" viewBox="0 0 16 16"><path d="M0 0"/></svg>
+          <span class="text-dark">
+            ${date}
+          </span></div>
+      </div>
+    </a>
+  </div>
+</div>`;
+const tdPage = (header, cards, next) => `<html><head>${next ? '<link rel="next" href="https://do.trabajosdiarios.com/ofertas-trabajo?page=2" />' : ''}</head><body>
+<span class="texto_celeste fw-bold"> ${header} </span>${cards}</body></html>`;
+const tdJobs = td.parse(tdPage('Ofertas de Empleo de Contable: 1 - 12 de 407 resultados',
+  tdCard(3100001, 'Auxiliar de contabilidad', 'Ferreter&iacute;a Ejemplo SRL', 'Santiago de los Caballeros, Santiago', '31/10/2026') +
+  tdCard(3100002, 'Cajera', 'Tienda Ejemplo', 'Santo Domingo, Distrito Nacional', 'sin fecha')));
+assert.deepStrictEqual(tdJobs, [
+  { title: 'Auxiliar de contabilidad', url: 'https://do.trabajosdiarios.com/trabajo/3100001/puesto-ejemplo-en-santiago', company: 'Ferretería Ejemplo SRL', location: 'Santiago de los Caballeros, Santiago', externalId: '3100001', postedAt: Date.parse('2026-10-31T00:00:00-04:00') },
+  { title: 'Cajera', url: 'https://do.trabajosdiarios.com/trabajo/3100002/puesto-ejemplo-en-santiago', company: 'Tienda Ejemplo', location: 'Santo Domingo, Distrito Nacional', externalId: '3100002' },
+]);
+assert.strictEqual(td.parse(tdPage('Ofertas de Empleo (Página 2): 13 - 24 de 3,003 resultados', tdCard(1, 'A', 'B', 'C', '01/11/2026'))).length, 1, 'page-2 header wording');
+// "No results" pages still show unrelated suggested postings: none are results.
+assert.deepStrictEqual(td.parse(`<div>No se encontraron resultados para tu búsqueda</div>${tdCard(9, 'Sugerida', 'Otra', 'X', '01/11/2026')}`), []);
+// Cards before the count header (e.g. a promo strip) are not results.
+assert.deepStrictEqual(td.parse(tdCard(8, 'Promo', 'X', 'Y', '01/11/2026')), []);
+assert.strictEqual(td.buildUrl('Analista de Crédito', 1), 'https://do.trabajosdiarios.com/ofertas-trabajo/de-analista-de-credito');
+assert.strictEqual(td.buildUrl(null, 3), 'https://do.trabajosdiarios.com/ofertas-trabajo?page=3');
+// robots.txt: only /auth/google/ and /auth/facebook/ are disallowed.
+for (const u of [td.buildUrl(null, 1), td.buildUrl('auth google', 2)]) assert(!/\/auth\//.test(new URL(u).pathname), `disallowed URL built: ${u}`);
+assert(td.PACE_MS >= 2000, 'robots.txt Crawl-delay: 2');
+{
+  // Stops when the page has no rel="next", whatever max_pages says.
+  const calls = [];
+  const pages = [tdPage('1 - 12 de 20 resultados', tdCard(1, 'A', 'B', 'C', '01/11/2026'), true), tdPage('13 - 20 de 20 resultados', tdCard(2, 'D', 'E', 'F', '01/11/2026'), false)];
+  const found = await td.fetchBoard({ max_pages: 9 }, { get: async u => { calls.push(u); return pages[calls.length - 1]; } });
+  assert.strictEqual(calls.length, 2);
+  assert.strictEqual(found.length, 2);
+}
+
+// ── TuEmpleoRD ───────────────────────────────────────────────────────────
+const te = await load('_tuempleord.mjs');
+const teRow = (id, title, meta = {}, link = `https://tuempleord.do/empleo/puesto-${id}/`) => ({
+  id, date_gmt: '2026-10-30T19:50:00', link, title: { rendered: title },
+  meta: { _job_location: 'Santo Domingo', _company_name: '', _filled: 0, _application: 'rrhh@ejemplo.do', ...meta },
+});
+const teJobs = te.parse([
+  teRow(1, 'Ingeniero/A Analista De Presupuesto'),
+  teRow(2, 'Contador &#8211; Senior', { _company_name: 'Empresa Ejemplo SRL', _job_location: 'Samana' }),
+  teRow(3, 'Cubierta', { _filled: 1 }),
+  teRow(4, 'Enlace ajeno', {}, 'https://otro-sitio.example/empleo/x/'),
+]);
+assert.deepStrictEqual(teJobs, [
+  { title: 'Ingeniero/A Analista De Presupuesto', url: 'https://tuempleord.do/empleo/puesto-1/', company: te.COMPANY_LABEL, location: 'Santo Domingo', externalId: '1', postedAt: Date.parse('2026-10-30T19:50:00Z') },
+  { title: 'Contador – Senior', url: 'https://tuempleord.do/empleo/puesto-2/', company: 'Empresa Ejemplo SRL', location: 'Samana', externalId: '2', postedAt: Date.parse('2026-10-30T19:50:00Z') },
+]);
+assert(!JSON.stringify(teJobs).includes('rrhh@'), 'recruiter contact is never copied');
+assert.strictEqual(te.buildUrl(1), 'https://tuempleord.do/wp-json/wp/v2/job-listings?per_page=100&page=1&_fields=id,date_gmt,link,title,meta');
+assert.strictEqual(te.buildUrl(2, 'analista de crédito'), 'https://tuempleord.do/wp-json/wp/v2/job-listings?per_page=100&page=2&_fields=id,date_gmt,link,title,meta&search=analista%20de%20cr%C3%A9dito');
+{
+  // One request per query by default; a full page walks on up to max_pages.
+  const calls = [];
+  const full = Array.from({ length: 100 }, (_, i) => teRow(100 + i, `Puesto ${i}`));
+  await te.fetchBoard({ queries: ['contador', 'ventas'] }, { getJson: async u => { calls.push(u); return []; } });
+  assert.strictEqual(calls.length, 2);
+  calls.length = 0;
+  const found = await te.fetchBoard({ max_pages: 3 }, { getJson: async u => { calls.push(u); return calls.length === 1 ? full : [teRow(999, 'Último')]; } });
+  assert.strictEqual(calls.length, 2, 'stops on a short page');
+  assert.strictEqual(found.length, 101);
+}
+
 // ── provider hook against a fake ctx ─────────────────────────────────────
 function fakeCtx(respond) {
   const calls = [];

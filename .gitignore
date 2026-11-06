@@ -7,5 +7,8 @@ Thumbs.db
 cv.md
 profile.yml
 *.pdf
-web/data/
+
+# Secretos locales (claves de API), nunca al repo
 .env
+# Datos locales de la rama web (base de ofertas, registro de consumo)
+web/data/

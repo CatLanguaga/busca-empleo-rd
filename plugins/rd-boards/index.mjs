@@ -22,9 +22,13 @@ import * as rdtrabaja from './_rdtrabaja.mjs';
 import * as evaluar from './_evaluar.mjs';
 import * as concursa from './_concursa.mjs';
 import * as unika from './_unika.mjs';
+import * as trabajosdiarios from './_trabajosdiarios.mjs';
+import * as tuempleord from './_tuempleord.mjs';
 
-export const BOARDS = { computrabajo, tecoloco, diarioempleo, rdtrabaja, evaluar, concursa, unika };
+export const BOARDS = { computrabajo, tecoloco, diarioempleo, rdtrabaja, evaluar, concursa, unika, trabajosdiarios, tuempleord };
 
+// Default gap between requests. A board whose robots.txt sets a Crawl-delay
+// exports its own, larger PACE_MS (e.g. trabajosdiarios: 2000).
 const PACE_MS = 750;
 const REQUEST_TIMEOUT_MS = 15_000;
 // Hard cap per portals.yml entry, whatever its queries/max_pages multiply to.
@@ -42,14 +46,15 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
  * Paced, capped access to the engine's guarded fetch. All egress goes through
  * ctx so the manifest's allowedHosts is enforced.
  * @param {any} ctx
+ * @param {number} [paceMs]  Gap between requests; defaults to PACE_MS.
  */
-function makeIo(ctx) {
+function makeIo(ctx, paceMs = PACE_MS) {
   let requests = 0;
   async function paced() {
     if (requests >= MAX_REQUESTS_PER_ENTRY) {
       throw new Error(`request cap reached (${MAX_REQUESTS_PER_ENTRY} per entry) — lower queries/categories/max_pages`);
     }
-    if (requests > 0) await sleep(PACE_MS);
+    if (requests > 0) await sleep(paceMs);
     requests++;
   }
   return {
@@ -86,7 +91,8 @@ export default {
       // A failed request throws: a blocked or rate-limited board must surface
       // as an error, never as a board that happens to list nothing. No retry —
       // a 429 means slow down.
-      const found = await board.fetchBoard(entry, makeIo(ctx));
+      const pace = 'PACE_MS' in board && Number.isFinite(board.PACE_MS) ? Math.max(PACE_MS, Number(board.PACE_MS)) : PACE_MS;
+      const found = await board.fetchBoard(entry, makeIo(ctx, pace));
 
       const seen = new Set();
       const jobs = [];
