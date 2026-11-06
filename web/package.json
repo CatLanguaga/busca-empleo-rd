@@ -1,0 +1,19 @@
+{
+  "name": "busca-empleo-rd-web",
+  "private": true,
+  "description": "Prototipo local: sube tu CV y recibe ofertas de empleo de República Dominicana.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node server.mjs",
+    "scan": "node scan.mjs",
+    "test": "node --test test/*.test.mjs",
+    "consumo": "node scripts/consumo.mjs",
+    "medir": "node scripts/medir.mjs"
+  },
+  "dependencies": {
+    "unpdf": "^1.9.1"
+  }
+}

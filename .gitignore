@@ -7,3 +7,5 @@ Thumbs.db
 cv.md
 profile.yml
 *.pdf
+web/data/
+.env

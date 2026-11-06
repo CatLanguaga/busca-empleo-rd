@@ -1,6 +1,6 @@
 # Plan: a web page for busca-empleo-rd
 
-Written 2026-10-13. Status: idea, nothing built.
+Written 2026-10-13. Status (2026-11-06): local prototype in `web/`, steps 1–4 built; steps 0, 5 and 6 open.
 
 ## Goal
 
@@ -14,7 +14,7 @@ The page finds offers. It does not apply to anything; the person opens the link 
 |---|---|---|
 | Readers for Computrabajo RD, Tecoloco RD, DiarioEmpleo, RD Trabaja, Concursa, Evaluar, Unika | `plugins/rd-boards/_*.mjs` | Yes. Each is a plain fetch-and-parse module with no dependency on career-ops. |
 | Employer registry and portal detector | `data/empresas-rd.yml`, `descubrir.mjs` | Yes, for the list of employers. |
-| Readers for employer portals (SuccessFactors, Oracle Cloud, Teamtailor) | career-ops, not this repo | No. They belong to career-ops and would need to be called from it or rewritten. |
+| Readers for employer portals (SuccessFactors, Oracle Cloud, Teamtailor) | career-ops providers; for the web, small rewrites in `web/employers.mjs` (2026-11-06) | The web scan reads Banco Popular, Grupo Universal, Cervecería Nacional and Grupo InterEnergy with them: about 106 postings on 2026-11-06. A new employer goes in `defaultSources()` in `web/scan.mjs` as well as in `overlay/empresas.rd.yml`. |
 | Reading a CV and turning it into search terms | Nowhere | No. In the test runs this was done by hand. |
 | Ranking offers by fit | Nowhere | No. The scanner only filters by title. |
 
@@ -93,8 +93,46 @@ These are not coding problems and each can stop the project.
 
 Steps 1 to 4 make a local prototype and can be done without settling the open questions. Step 6 cannot.
 
-## Decisions needed from Omar
+## Decisions
 
-- Same repo or a new one for the page.
-- Which LLM and who pays for it.
+Taken 2026-11-06:
+
+- Repo: same one, in `web/`. It imports `plugins/rd-boards` directly.
+- LLM: DeepSeek (`deepseek-flash`, set by `DEEPSEEK_MODEL`), paid by Omar. Its servers are outside the Dominican Republic, which matters for open question 3.
+- Hosting, when step 6 comes: Omar's own VPS. The prototype is one Node process and one SQLite file, so it moves as is.
+
+Still open:
+
 - Whether the page stays a free community tool or something else; this changes how the terms of the boards apply.
+
+## Running the prototype
+
+```bash
+cd web
+npm install
+node scan.mjs                                # fill web/data/listings.db (about 1 minute)
+DEEPSEEK_API_KEY=... node server.mjs         # http://127.0.0.1:3000
+DEEPSEEK_API_KEY=... node server.mjs --scan-every=6   # also rescan every 6 hours
+npm test
+```
+
+## Model cost
+
+Measured 2026-11-06 with the two test CVs (`npm run medir -- <pdf>`), DeepSeek V4.1 Flash at peak prices:
+
+| | Tokens per upload | Cost per upload | 1000 uploads |
+|---|---|---|---|
+| First version | ~33K (Omar's test) | ~$0.01 | ~$10 |
+| After the changes below | ~2.4K | ~$0.001 | ~$1 |
+
+What made the difference:
+
+- **Reasoning off.** `deepseek-flash` reasons before answering unless the request says `thinking: disabled`, and reasoning bills as output, the expensive side (4× input). On one CV it used the whole token budget and returned nothing. `DEEPSEEK_THINKING=enabled` turns it back on.
+- **Smaller ranking.** At most 40 candidates, sent as numbered `n|title|employer|location` lines with a short profile. The model answers only for offers scoring 50 or more, with a reason of at most 12 words. Three candidates or fewer skip the model.
+- **Smaller CV call.** CV text capped at 8k characters, 10 skills, 700 output tokens.
+- **Nothing paid twice.** The same PDF, or the same profile against the same scan, is answered from memory for an hour (keys are SHA-256 hashes; the PDF is not kept).
+- **Daily cap.** `DAILY_BUDGET_USD` (default 1) stops CV reads and searches for the rest of the day once reached.
+
+Every call is logged to `web/data/usage.jsonl` (tokens and cost, never CV text). `npm run consumo` summarises it per day and per call type and projects the cost of 100 and 1000 uploads. Prices are set by `DEEPSEEK_PRICE_IN`, `DEEPSEEK_PRICE_IN_CACHED` and `DEEPSEEK_PRICE_OUT` when DeepSeek changes them.
+
+Found while building it, fixed 2026-11-06: the DiarioEmpleo reader returned nothing after the board changed its markup and started listing other countries. It now reads `/empleos/do/` with pagination and keeps only Dominican postings; the career-ops plugin gets the fix too.
